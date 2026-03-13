@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. The Client Table
+model Client {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?  @unique
+  phone     String?
+  matters   Matter[] // This links to the Matter table (One-to-Many)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 2. The Matter Table (The cases on your Kanban board)
+model Matter {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  status      String   @default("Intake") // Columns: Intake, Discovery, Trial, Closed
+  clientId    String
+  client      Client   @relation(fields: [clientId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
