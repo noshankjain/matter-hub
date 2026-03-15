@@ -29,6 +29,19 @@ app.put('/api/matters/:id', async (req: Request, res: Response) => {
   res.json(updatedMatter);
 });
 
+// 4. Delete a matter (Used when dropping into the trash)
+app.delete('/api/matters/:id', async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  try {
+    await prisma.matter.delete({
+      where: { id },
+    });
+    res.json({ message: "Matter successfully deleted" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete matter" });
+  }
+});
+
 // 3. Temporary Seed Route
 app.post('/api/seed', async (req: Request, res: Response) => {
   const newClient = await prisma.client.create({
