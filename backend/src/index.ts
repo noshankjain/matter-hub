@@ -12,7 +12,7 @@ app.use(express.json());
 // 1. Fetch all matters
 app.get('/api/matters', async (req: Request, res: Response) => {
   const matters = await prisma.matter.findMany({
-    include: { client: true }, 
+    include: { client: true, documents: true }
   });
   res.json(matters);
 });
@@ -80,6 +80,32 @@ app.post('/api/matters', async (req: Request, res: Response) => {
   });
   
   res.json(newMatter);
+});
+// Create a new document metadata record
+app.post('/api/documents', async (req: Request, res: Response) => {
+  const { name, size, matterId } = req.body;
+  try {
+    const newDoc = await prisma.document.create({
+      data: { name, size, matterId }
+    });
+    res.json(newDoc);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to upload document" });
+  }
+});
+
+// Delete a document record
+app.delete('/api/documents/:id', async (req: Request, res: Response) => {
+  const id = req.params.id as string; // This tells TypeScript it's definitely a single string
+  
+  try {
+    await prisma.document.delete({
+      where: { id }
+    });
+    res.json({ message: "Document deleted" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete document" });
+  }
 });
 app.listen(PORT, () => {
   console.log(`Database-connected server running on http://localhost:${PORT}`);
