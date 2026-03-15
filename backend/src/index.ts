@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); 
 app.use(express.json()); 
 
-// 1. Fetch all matters
+// 1. Get all matters
 app.get('/api/matters', async (req: Request, res: Response) => {
   const matters = await prisma.matter.findMany({
     include: { client: true, documents: true }
