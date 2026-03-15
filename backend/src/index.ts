@@ -47,6 +47,27 @@ app.post('/api/seed', async (req: Request, res: Response) => {
   res.json({ message: 'Dummy data successfully seeded into the database!', newClient });
 });
 
+app.post('/api/matters', async (req: Request, res: Response) => {
+  const { title } = req.body;
+  
+  // For now, we will assign new matters to the first available client
+  const defaultClient = await prisma.client.findFirst();
+  if (!defaultClient) {
+    res.status(400).json({ error: "No client found in database" });
+    return;
+  }
+
+  const newMatter = await prisma.matter.create({
+    data: {
+      title,
+      clientId: defaultClient.id,
+      status: 'Intake'
+    },
+    include: { client: true }
+  });
+  
+  res.json(newMatter);
+});
 app.listen(PORT, () => {
   console.log(`Database-connected server running on http://localhost:${PORT}`);
 });
