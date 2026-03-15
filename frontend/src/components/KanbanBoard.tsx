@@ -33,7 +33,7 @@ export default function KanbanBoard() {
 
   // 3. NEW: Fetch the real data from your backend when the page loads
   useEffect(() => {
-    fetch('http://localhost:5000/api/matters')
+    fetch('https://matter-hub-backend.onrender.com/api/matters')
       .then(res => res.json())
       .then((data: Matter[]) => {
         // Create a fresh copy of empty columns
@@ -87,7 +87,7 @@ export default function KanbanBoard() {
 
       // Background task: Tell the database to save this new status
       try {
-        await fetch(`http://localhost:5000/api/matters/${draggableId}`, {
+        await fetch(`https://matter-hub-backend.onrender.com/api/matters/${draggableId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: destCol.id })
