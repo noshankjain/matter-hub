@@ -24,6 +24,7 @@ export default function Vault() {
 
   const CORRECT_PIN = '12345678';
 
+  // Fetch matters and their documents once the vault is unlocked
   useEffect(() => {
     if (!isLocked) {
       fetchMatters();
@@ -56,6 +57,7 @@ export default function Vault() {
     if (!file) return;
 
     setIsUploading(true);
+    // Convert bytes to MB for display
     const sizeInMB = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
 
     try {
@@ -68,12 +70,13 @@ export default function Vault() {
           matterId: matterId
         })
       });
+      // Refresh the list to show the new document
       await fetchMatters();
     } catch (err) {
       console.error("Failed to upload document", err);
     } finally {
       setIsUploading(false);
-      e.target.value = ''; // Reset the input
+      e.target.value = ''; // Reset the file input
     }
   };
 
@@ -82,6 +85,7 @@ export default function Vault() {
       await fetch(`https://matter-hub-backend.onrender.com/api/documents/${documentId}`, {
         method: 'DELETE'
       });
+      // Refresh the list to remove the deleted document
       await fetchMatters();
     } catch (err) {
       console.error("Failed to delete document", err);
@@ -92,6 +96,7 @@ export default function Vault() {
     setExpandedMatterId(expandedMatterId === id ? null : id);
   };
 
+  // 1. The Locked Screen
   if (isLocked) {
     return (
       <div className="flex flex-col items-center justify-center h-full relative">
@@ -131,6 +136,7 @@ export default function Vault() {
     );
   }
 
+  // 2. The Unlocked Vault Screen
   return (
     <div className="h-full flex flex-col p-2 animate-in fade-in duration-500 overflow-hidden">
       <div className="bg-green-50 text-green-700 px-4 py-3 rounded-lg text-sm font-medium mb-6 flex items-center gap-2 border border-green-200 flex-shrink-0">
@@ -157,6 +163,7 @@ export default function Vault() {
                 {expandedMatterId === matter.id ? <ChevronUp size={20} className="text-slate-400" /> : <ChevronDown size={20} className="text-slate-400" />}
               </button>
               
+              {/* Expandable Document List */}
               {expandedMatterId === matter.id && (
                 <div className="p-6 border-t border-slate-200">
                   <div className="space-y-3 mb-4">
@@ -184,6 +191,7 @@ export default function Vault() {
                     )}
                   </div>
                   
+                  {/* Upload Button */}
                   <div className="relative">
                     <input 
                       type="file" 
