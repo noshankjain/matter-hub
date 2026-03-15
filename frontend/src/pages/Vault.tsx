@@ -52,16 +52,15 @@ export default function Vault() {
     }
   };
 
-  const handleFileUpload = async (matterId: string, e: React.ChangeEvent<HTMLInputElement>) => {
+ const handleFileUpload = async (matterId: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setIsUploading(true);
-    // Convert bytes to MB for display
     const sizeInMB = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
 
     try {
-      await fetch('https://matter-hub-backend.onrender.com/api/documents', {
+      const response = await fetch('https://matter-hub-backend.onrender.com/api/documents', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -70,16 +69,22 @@ export default function Vault() {
           matterId: matterId
         })
       });
-      // Refresh the list to show the new document
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Server Error: ${errorData.error || 'Failed to upload'}`);
+        return;
+      }
+
       await fetchMatters();
     } catch (err) {
       console.error("Failed to upload document", err);
+      alert("Network error: Could not connect to the server.");
     } finally {
       setIsUploading(false);
-      e.target.value = ''; // Reset the file input
+      e.target.value = ''; // Reset the input
     }
   };
-
   const handleDeleteDocument = async (documentId: string) => {
     try {
       await fetch(`https://matter-hub-backend.onrender.com/api/documents/${documentId}`, {
