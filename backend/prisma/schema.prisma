@@ -13,19 +13,30 @@ model Client {
   name      String
   email     String?  @unique
   phone     String?
-  matters   Matter[] // This links to the Matter table (One-to-Many)
+  matters   Matter[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-// 2. The Matter Table (The cases on your Kanban board)
+// 2. The Matter Table
 model Matter {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   title       String
   description String?
-  status      String   @default("Intake") // Columns: Intake, Discovery, Trial, Closed
+  status      String     @default("Intake") 
   clientId    String
-  client      Client   @relation(fields: [clientId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  client      Client     @relation(fields: [clientId], references: [id])
+  documents   Document[] // This links to the Document table (One-to-Many)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+// 3. The Document Table
+model Document {
+  id        String   @id @default(uuid())
+  name      String
+  size      String
+  matterId  String
+  matter    Matter   @relation(fields: [matterId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
