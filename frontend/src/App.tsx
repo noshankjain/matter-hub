@@ -37,7 +37,7 @@ function App() {
 
         <main className="flex-1 p-8 flex flex-col h-full overflow-hidden relative">
           <Routes>
-            {/* Main Kanban Board Route */}
+            {/* Main Dashboard Route */}
             <Route path="/" element={
               <>
                 <div className="flex justify-between items-center mb-8 flex-shrink-0">
