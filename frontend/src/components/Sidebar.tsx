@@ -6,7 +6,7 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const links = [
-    { name: 'Kanban Board', path: '/', icon: <Kanban size={20} /> },
+    { name: 'Dashboard', path: '/', icon: <Kanban size={20} /> },
     { name: 'Clients Directory', path: '/clients', icon: <Users size={20} /> },
     { name: 'Document Vault', path: '/vault', icon: <FolderOpen size={20} /> },
     { name: 'Billing & Time', path: '/billing', icon: <Clock size={20} /> },
