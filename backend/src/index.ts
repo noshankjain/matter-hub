@@ -107,6 +107,30 @@ app.delete('/api/documents/:id', async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to delete document" });
   }
 });
+
+app.get('/api/clients', async (req: Request, res: Response) => {
+  try {
+    const clients = await prisma.client.findMany({
+      include: { matters: true } // Include their cases
+    });
+    res.json(clients);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch clients" });
+  }
+});
+
+app.post('/api/clients', async (req: Request, res: Response) => {
+  const { name, email, phone } = req.body;
+  try {
+    const newClient = await prisma.client.create({
+      data: { name, email, phone }
+    });
+    res.json(newClient);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create client" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Database-connected server running on http://localhost:${PORT}`);
 });
