@@ -194,10 +194,3 @@ http://localhost:5173
 
 ---
 
-## 📌 Notes
-
-- Default Document Vault PIN: `12345678`
-- Ensure backend is running before seeding data
-- Keep `.env` files private and never push them to GitHub
-
----
