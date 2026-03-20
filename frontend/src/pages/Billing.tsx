@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Clock, DollarSign, FileText, Plus, CheckCircle2 } from 'lucide-react';
+import { Clock, DollarSign, FileText, CheckCircle2 } from 'lucide-react';
 
 export default function Billing() {
   // Using some mock data to make the UI look alive
