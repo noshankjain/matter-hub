@@ -74,7 +74,7 @@ The database relies on three core Prisma models with relational mapping:
 ### 2. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/matter-hub.git
+git clone https://github.com/noshankjain/matter-hub.git
 cd matter-hub
 ```
 
@@ -201,7 +201,3 @@ http://localhost:5173
 - Keep `.env` files private and never push them to GitHub
 
 ---
-
-## 📄 License
-
-This project is open-source and available under the MIT License.
