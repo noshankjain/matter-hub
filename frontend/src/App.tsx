@@ -122,5 +122,6 @@ function App() {
     </BrowserRouter>
   );
 }
+console.log("Forcing Vercel to build the correct URLs!");
 
 export default App;
