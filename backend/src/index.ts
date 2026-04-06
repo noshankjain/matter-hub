@@ -29,7 +29,7 @@ app.put('/api/matters/:id', async (req: Request, res: Response) => {
   res.json(updatedMatter);
 });
 
-// 4. Delete a matter (Used when dropping into the trash)
+// 4. Delete a matter
 app.delete('/api/matters/:id', async (req: Request, res: Response) => {
   const id = req.params.id as string;
   try {
@@ -63,7 +63,6 @@ app.post('/api/seed', async (req: Request, res: Response) => {
 app.post('/api/matters', async (req: Request, res: Response) => {
   const { title } = req.body;
   
-  // For now, we will assign new matters to the first available client
   const defaultClient = await prisma.client.findFirst();
   if (!defaultClient) {
     res.status(400).json({ error: "No client found in database" });
@@ -81,7 +80,7 @@ app.post('/api/matters', async (req: Request, res: Response) => {
   
   res.json(newMatter);
 });
-// Create a new document metadata record
+// Create a new document
 app.post('/api/documents', async (req: Request, res: Response) => {
   const { name, size, matterId } = req.body;
   try {

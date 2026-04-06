@@ -27,7 +27,6 @@ const emptyColumns: Record<ColumnId, ColumnData> = {
 export default function KanbanBoard() {
   const [columns, setColumns] = useState(emptyColumns);
   
-  // State for the delete confirmation modal
   const [deleteTarget, setDeleteTarget] = useState<{ id: string, sourceColId: ColumnId, sourceIndex: number, title: string } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -57,7 +56,6 @@ export default function KanbanBoard() {
 
     const sourceCol = columns[source.droppableId as ColumnId];
     
-    // Check if the user dropped the card into the Trash
     if (destination.droppableId === 'Trash') {
       const matterToDelete = sourceCol.matters[source.index];
       setDeleteTarget({
@@ -109,7 +107,6 @@ export default function KanbanBoard() {
         method: 'DELETE'
       });
 
-      // Instantly remove it from the UI
       const sourceCol = columns[deleteTarget.sourceColId];
       const updatedMatters = [...sourceCol.matters];
       updatedMatters.splice(deleteTarget.sourceIndex, 1);

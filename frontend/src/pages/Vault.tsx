@@ -24,7 +24,7 @@ export default function Vault() {
 
   const CORRECT_PIN = '12345678';
 
-  // Fetch matters and their documents once the vault is unlocked
+  //gets the documents once vault is unlocked
   useEffect(() => {
     if (!isLocked) {
       fetchMatters();
@@ -90,7 +90,7 @@ export default function Vault() {
       await fetch(`https://matter-hub-backend.onrender.com/api/documents/${documentId}`, {
         method: 'DELETE'
       });
-      // Refresh the list to remove the deleted document
+      
       await fetchMatters();
     } catch (err) {
       console.error("Failed to delete document", err);
@@ -101,7 +101,7 @@ export default function Vault() {
     setExpandedMatterId(expandedMatterId === id ? null : id);
   };
 
-  // 1. The Locked Screen
+  // locked vault screen
   if (isLocked) {
     return (
       <div className="flex flex-col items-center justify-center h-full relative">
@@ -141,7 +141,7 @@ export default function Vault() {
     );
   }
 
-  // 2. The Unlocked Vault Screen
+  //Unlocked Vault Screen
   return (
     <div className="h-full flex flex-col p-2 animate-in fade-in duration-500 overflow-hidden">
       <div className="bg-green-50 text-green-700 px-4 py-3 rounded-lg text-sm font-medium mb-6 flex items-center gap-2 border border-green-200 flex-shrink-0">
